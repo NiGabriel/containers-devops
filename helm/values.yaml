@@ -7,7 +7,7 @@ weCloud:
 profile:
   # Profile Service Configuration
   releaseName: "spring-profile"
-  replicaCount: 2
+  replicaCount: 1
   repository: "wecloudchat-repo"
   image: "profile-service-image"
   tag: "v1"
