@@ -35,6 +35,9 @@ env:
   GCP_PROJECT_ID: "gcp-docker-kubernetes-449906"
   GCP_REGION: "us-east1-d"
 
+  AZ_CLUSTER_NAME: "myAksCluster"
+  AZ_RESOURCE_GROUP: "myResourceGroup"
+
 # Set permissions to allow OIDC token to push to the container registry
 permissions:
   id-token: write
@@ -311,10 +314,11 @@ jobs:
       # TODO: Set AKS context so we that can deploy to the azure cluster
       # Document: Azure Kubernetes set context https://github.com/marketplace/actions/azure-kubernetes-set-context
       - name: Set AKS context
-        uses: azure/aks-set-context@v1
+        uses: azure/aks-set-context@v3
         with:
-          resource-group: ${{ secrets.AZ_RESOURCE_GROUP }}
-          cluster-name: ${{ secrets.AZ_CLUSTER_NAME }}
+          resource-group: ${{ env.AZ_RESOURCE_GROUP }}
+          cluster-name: ${{ env.AZ_CLUSTER_NAME }}
+          creds: ${{ secrets.AZURE_CLIENT_ID }}
 
       # TODO: Deploy the new helm chart to AKS cluster with helm with the bash script in `run`
       - name: Deploy the services to the AKS cluster with helm
