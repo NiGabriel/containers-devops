@@ -3,13 +3,13 @@ global:
 
 weCloud:
   imageRegistry:
-    azure: "mycontainerregistryacr.azurecr.io"
+    azure: "gabeacr1739526061.azurecr.io"
 
 profile:
   # Profile Service Configuration
   releaseName: "spring-profile"
   replicaCount: 1
-  image: "mycontainerregistryacr.azurecr.io/profile-service-image:v1"
+  image: "gabeacr1739526061.azurecr.io/profile-service-image:v1"
   service:
     type: "NodePort"
     port: 80
@@ -29,7 +29,7 @@ profile:
 login:
   releaseName: "spring-login"
   replicaCount: 1
-  image: "mycontainerregistryacr.azurecr.io/login-service-image:v1"
+  image: "gabeacr1739526061.azurecr.io/login-service-image:v1"
   service:
     type: "NodePort"
     port: 80
@@ -40,7 +40,7 @@ login:
     password: "MysqlPassword123!"
     port: "3306"
   chat:
-    endpoint: "34.138.225.244"
+    endpoint: "34.23.213.69"
   hpa:
     enabled: true
     minReplicas: 1

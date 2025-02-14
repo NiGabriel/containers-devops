@@ -40,7 +40,7 @@ chat:
     user: "MysqlUserGabe"
     password: "MysqlPassword123!"
     port: "3306"
-  profileEndpoints: "spring-profile-service.default.svc.cluster.local, http://4.157.170.188" # This value should be used in configMap-chat.yaml
+  profileEndpoints: "spring-profile-service.default.svc.cluster.local, http://4.246.250.160" # This value should be used in configMap-chat.yaml
   hpa:
     enabled: true
     minReplicas: 1
@@ -62,7 +62,7 @@ login:
     password: "MysqlPassword123!"
     port: "3306"
   chat:
-    endpoint: "34.138.225.244"
+    endpoint: "34.23.213.69"
   hpa:
     enabled: true
     minReplicas: 1

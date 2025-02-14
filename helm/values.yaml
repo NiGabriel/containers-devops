@@ -37,7 +37,7 @@ chat:
     user: "MysqlUserGabe"
     password: "MysqlPassword123!"
     port: "3306"
-  profileEndpoints: "4.157.170.188" # This value should be used in configMap-chat.yaml
+  profileEndpoints: "4.246.250.160" # This value should be used in configMap-chat.yaml
 
 login:
   releaseName: "spring-login"
@@ -55,7 +55,7 @@ login:
     password: "MysqlPassword123!"
     port: "3306"
   chat:
-    endpoint: "34.23.30.42"
+    endpoint: "34.23.213.69"
 
 
 # Below are the values used in the redis service
