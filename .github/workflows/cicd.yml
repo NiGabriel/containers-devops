@@ -30,6 +30,9 @@ env:
   AZ_REGISTRY_PASSWORD: "${{ secrets.AZ_REGISTRY_PASSWORD }}"
   GCP_SA_KEY: "${{ secrets.GCP_SA_KEY }}"
   DOCKER_TAG: ${{ github.sha }}
+  GCP_CLUSTER_NAME: "${{ secrets.GCP_CLUSTER_NAME }}"
+  GCP_PROJECT_ID: "${{ secrets.GCP_PROJECT_ID }}"
+  GCP_REGION: "${{ secrets.GCP_REGION }}"
 
 # Set permissions to allow OIDC token to push to the container registry
 permissions:
@@ -136,7 +139,7 @@ jobs:
       - name: Login to GAR
         uses: docker/login-action@v2
         with:
-          registry: ${{ secrets.GCP_PROJECT_ID }}-docker.pkg.dev
+          registry: us-east1-docker.pkg.dev
           username: _json_key
           password: ${{ secrets.GCP_SA_KEY }}
 
@@ -190,7 +193,7 @@ jobs:
       - name: Push Docker image profile-service az
         if: needs.check-changed-files.outputs.profile-service-java-any-changed == 'true'
         run: |
-          docker push ${{ secrets.AZ_CONTAINER_REGISTRY }}/profile-service:${{ github.sha }}
+          docker push ${{ secrets.AZ_CONTAINER_REGISTRY }}/wecloudchat-repo/profile-service:${{ github.sha }}
 
       # TODO: Push the built Docker image to ACR with bash script in `run`
       - name: Push Docker image login-service az
@@ -285,7 +288,7 @@ jobs:
       - name: update profile deployment
         if: needs.check-changed-files.outputs.profile-service-java-any-changed == 'true' 
         run: |
-          sed -i '/profile:/,/tag:/s|tag: ".*"|tag: <DOCKER-TAG-ENV-VAR>|' <PATH-TO-VALUES-YAML-FOR-AZURE>
+          sed -i '/profile:/,/tag:/s|tag: ".*"|tag: "${{ github.sha }}"|' helm/values-azure.yaml
 
       # Update value.yamls to use the docker image we just pushed for login-service
       # TODO: complete the bash script in `run` with your docker image name and file path
