@@ -1,0 +1,87 @@
+global:
+  environment: gcp
+
+weCloud:
+  imageRegistry:
+    gcp: "us-east1-docker.pkg.dev/gcp-docker-kubernetes-449906/wecloudchat-repo"
+
+profile:
+  # Profile Service Configuration
+  releaseName: "spring-profile"
+  replicaCount: 1
+  image: "us-east1-docker.pkg.dev/gcp-docker-kubernetes-449906/wecloudchat-repo/profile-service-image:v1"
+  service:
+    type: "NodePort"
+    port: 80
+    targetPort: 8080
+  mysql:
+    host: "mysql-profile.default.svc.cluster.local"
+    user: "MysqlUserGabe"
+    password: "MysqlPassword123!"
+    port: "3306"
+  hpa:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 50
+    cpuRequest: 200m
+
+chat:
+  # Chat Service Configuration
+  releaseName: "spring-chat"
+  replicaCount: 1
+  image: "us-east1-docker.pkg.dev/gcp-docker-kubernetes-449906/wecloudchat-repo/chat-service-image:v1"
+  service:
+    type: "NodePort"
+    port: 80
+    targetPort: 8080
+  mysql:
+    host: "mysql-chat.default.svc.cluster.local"
+    user: "MysqlUserGabe"
+    password: "MysqlPassword123!"
+    port: "3306"
+  profileEndpoints: "spring-profile-service.default.svc.cluster.local, http://4.157.170.188" # This value should be used in configMap-chat.yaml
+  hpa:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 50
+    cpuRequest: 200m
+
+login:
+  releaseName: "spring-login"
+  replicaCount: 1
+  image: "us-east1-docker.pkg.dev/gcp-docker-kubernetes-449906/wecloudchat-repo/login-service-image:v1"
+  service:
+    type: "NodePort"
+    port: 80
+    targetPort: 8080
+  mysql:
+    host: "mysql-login.default.svc.cluster.local"
+    user: "MysqlUserGabe"
+    password: "MysqlPassword123!"
+    port: "3306"
+  chat:
+    endpoint: "34.138.225.244"
+  hpa:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 50
+    cpuRequest: 200m
+
+
+# Below are the values used in the redis service
+# DO NOT MODIFY
+redis:
+  image: "bitnami/redis:4.0.11-r6"
+  host: "redis-service"
+  password: "SuperSecretRedisPassword"
+  passwordSecret: "redis-secret"
+  passwordKey: "REDIS_PASSWORD"
+  port: "6379"
+  containerPort: 6379
+  topic: "/topic/messages"
+  service:
+    port: 6379
+    targetPort: 6379

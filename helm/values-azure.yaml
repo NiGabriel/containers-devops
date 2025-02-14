@@ -1,0 +1,49 @@
+global:
+  environment: "azure"
+
+weCloud:
+  imageRegistry:
+    azure: "mycontainerregistryacr.azurecr.io"
+
+profile:
+  # Profile Service Configuration
+  releaseName: "spring-profile"
+  replicaCount: 1
+  image: "mycontainerregistryacr.azurecr.io/profile-service-image:v1"
+  service:
+    type: "NodePort"
+    port: 80
+    targetPort: 8080
+  mysql:
+    host: "mysql-profile.default.svc.cluster.local"
+    user: "MysqlUserGabe"
+    password: "MysqlPassword123!"
+    port: "3306"
+  hpa:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 50
+    cpuRequest: 200m
+
+login:
+  releaseName: "spring-login"
+  replicaCount: 1
+  image: "mycontainerregistryacr.azurecr.io/login-service-image:v1"
+  service:
+    type: "NodePort"
+    port: 80
+    targetPort: 8080
+  mysql:
+    host: "mysql-login.default.svc.cluster.local"
+    user: "MysqlUserGabe"
+    password: "MysqlPassword123!"
+    port: "3306"
+  chat:
+    endpoint: "34.138.225.244"
+  hpa:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 50
+    cpuRequest: 200m

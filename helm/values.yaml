@@ -1,0 +1,74 @@
+global:
+  environment: gcp, azure
+weCloud:
+  imageRegistry:
+    gcp: "us-east1-docker.pkg.dev/gcp-docker-kubernetes-449906"
+
+profile:
+  # Profile Service Configuration
+  releaseName: "spring-profile"
+  replicaCount: 1
+  repository: "wecloudchat-repo"
+  image: "profile-service-image"
+  tag: "v1"
+  service:
+    type: "NodePort"
+    port: 80
+    targetPort: 8080
+  mysql:
+    host: "mysql-profile.default.svc.cluster.local"
+    user: "MysqlUserGabe"
+    password: "MysqlPassword123!"
+    port: "3306"
+
+chat:
+  # Chat Service Configuration
+  releaseName: "spring-chat"
+  replicaCount: 1
+  repository: "wecloudchat-repo"
+  image: "chat-service-image"
+  tag: "v1"
+  service:
+    type: "NodePort"
+    port: 80
+    targetPort: 8080
+  mysql:
+    host: "mysql-chat.default.svc.cluster.local"
+    user: "MysqlUserGabe"
+    password: "MysqlPassword123!"
+    port: "3306"
+  profileEndpoints: "4.157.170.188" # This value should be used in configMap-chat.yaml
+
+login:
+  releaseName: "spring-login"
+  replicaCount: 1
+  repository: "wecloudchat-repo"
+  image: "login-service-image"
+  tag: "v1"
+  service:
+    type: "NodePort"
+    port: 80
+    targetPort: 8080
+  mysql:
+    host: "mysql-login.default.svc.cluster.local"
+    user: "MysqlUserGabe"
+    password: "MysqlPassword123!"
+    port: "3306"
+  chat:
+    endpoint: "34.23.30.42"
+
+
+# Below are the values used in the redis service
+# DO NOT MODIFY
+redis:
+  image: "bitnami/redis:4.0.11-r6"
+  host: "redis-service"
+  password: "SuperSecretRedisPassword"
+  passwordSecret: "redis-secret"
+  passwordKey: "REDIS_PASSWORD"
+  port: "6379"
+  containerPort: 6379
+  topic: "/topic/messages"
+  service:
+    port: 6379
+    targetPort: 6379
